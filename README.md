@@ -5,9 +5,9 @@ installation:
 
 1. start server.js:
 
-<< nodejs path >>\node.exe server.js
+<< nodejs-path >>/node server.js
 
-(maybe install required libraries express and redis.)
+(maybe also install required libraries express and redis.)
 
 2. run Java test:
 

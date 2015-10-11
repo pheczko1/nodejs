@@ -25,6 +25,8 @@ public class NodeJsClientTest {
 
 	private static final int THREAD_COUNT = 3;
 
+	private static final int EXPECTED_COUNT = calculateExpectedCount();
+
 	List<NodeJsClientTestThread> threads;
 	
 	@Before
@@ -39,6 +41,14 @@ public class NodeJsClientTest {
 		}
 	}
 	
+	private static int calculateExpectedCount() {
+		int sum = 0;
+		for (int i = 0; i < NodeJsClientTestThread.REQUEST_COUNT; i++) {
+			sum += i;
+		}
+		return sum * THREAD_COUNT;
+	}
+
 	@Test
 	public void test() throws ClientProtocolException, IOException, InterruptedException, ParseException {
 	
@@ -48,7 +58,7 @@ public class NodeJsClientTest {
 		GetCountThread t = new GetCountThread();
 		t .setClient(client);
 		t.start();
-		Thread.sleep(100);
+		Thread.sleep(500);
 		int count = readCount();
 		
 		
@@ -75,7 +85,7 @@ public class NodeJsClientTest {
 		Thread.sleep(100);
 		int count2 = readCount();
 		
-		assertEquals(count2 - count, 14850);
+		assertEquals(count2 - count, EXPECTED_COUNT /*14850*/);
 		
 		System.out.println("Finished.");
 		
