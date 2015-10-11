@@ -1,4 +1,9 @@
-var http = require("http"), express = require('express'), app = express(), url = require('url'), fs = require("fs"), redis = require('redis');
+var http = require("http"), 
+express = require('express'), 
+app = express(), 
+url = require('url'), 
+fs = require("fs"), 
+redis = require('redis');
 
 var client = redis.createClient();
 const FILE_NAME = 'attributes.json';
@@ -44,7 +49,7 @@ function getMessage(request, response) {
 	/* update 'count' parameter in database redis */
 	if (queryObject.count) {
 
-		client.incrby("count", queryObject.count, function(error, val) {
+		client.incrby(COUNT, queryObject.count, function(error, val) {
 			if (error !== null)
 				console.log("error: " + error);
 			else {
