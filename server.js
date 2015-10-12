@@ -1,11 +1,12 @@
 var http = require("http"), 
 express = require('express'), 
-app = express(), 
 url = require('url'), 
 fs = require("fs"), 
 redis = require('redis');
 
-var client = redis.createClient();
+var app = express(), 
+client = redis.createClient();
+
 const FILE_NAME = 'attributes.json';
 const COUNT = 'count';
 
@@ -59,13 +60,13 @@ function getMessage(request, response) {
 
 	}
 
-	console.log(queryObject);
+	//console.log(queryObject);
 
 	/* append to json file */
 	if (fs.existsSync(FILE_NAME)) {
 		var configFile = fs.readFileSync(FILE_NAME);
 		var config = JSON.parse(configFile);
-		console.log(config);
+		//console.log(config);
 
 		for ( var param in queryObject) {
 			config[param] = queryObject[param];
@@ -77,11 +78,13 @@ function getMessage(request, response) {
 
 	var configJSON = JSON.stringify(config);
 	fs.writeFileSync(FILE_NAME, configJSON);
-	fs.writeFile(FILE_NAME, configJSON, function(error) {
+	
+	/* async write caused error: */
+/*	fs.writeFile(FILE_NAME, configJSON, function(error) {
 		if (error !== null) 
 			console.log("error: " + error);
 	});
-
+*/
 	response.end();
 }
 
